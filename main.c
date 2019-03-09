@@ -14,6 +14,7 @@ void remove_spaces(char *original, char *cleaned_code);
 void tokenize(char *code);
 void addition();
 void subtraction();
+void multiplication();
 
 struct Token code_tokens[3];
 
@@ -29,6 +30,8 @@ int main(int argc, char **argv){
       addition();
     }else if (strcmp(code_tokens[1].type, "MINUS") == 0){
       subtraction();
+    }else if (strcmp(code_tokens[1].type, "MULT") == 0){
+      multiplication();
     }
   }
 
@@ -56,7 +59,6 @@ void addition(){
   val1 = strtol(code_tokens[0].value, &garbage, 10);
   val2 = strtol(code_tokens[2].value, &garbage, 10);
   printf("%d\n", val1+val2);
-
 }
 
 void subtraction(){
@@ -67,9 +69,17 @@ void subtraction(){
   val2 = strtol(code_tokens[2].value, &garbage, 10);
   int result = val1 - val2;
   printf("%d\n", result);
-
 }
 
+void multiplication(){
+  int val1;
+  int val2;
+  char *garbage;
+  val1 = strtol(code_tokens[0].value, &garbage, 10);
+  val2 = strtol(code_tokens[2].value, &garbage, 10);
+  int result = val1 * val2;
+  printf("%d\n", result);
+}
 
 /**
 Turn input into tokens
@@ -91,6 +101,10 @@ void tokenize(char *code){
     }else if(*code == '-'){
       strcpy(code_tokens[token_pos].type, "MINUS");
       strcpy(code_tokens[token_pos].value, "-");
+      code++;
+    }else if(*code == '*'){
+      strcpy(code_tokens[token_pos].type, "MULT");
+      strcpy(code_tokens[token_pos].value, "x");
       code++;
     }else{
       fprintf(stderr, "Incorrect input on char: '%c'\n", *code); 
